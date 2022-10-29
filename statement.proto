@@ -1,0 +1,45 @@
+package foo;
+syntax = "proto3";
+
+message Statement {
+  required StatementType type = 1;
+  string table = 2;
+  repeated string columns = 3;
+  repeated AnyValue values = 4;
+  repeated UpdateSet set = 5;
+}
+
+enum StatementType {
+  INSERT = 1;
+  REPLACE = 2;
+  UPDATE = 3;
+}
+
+message UpdateSet {
+  string column = 1;
+  AnyValue value = 2;
+}
+ 
+message AnyValues {
+  repeated AnyValue values = 1;
+}
+
+enum ValueType {
+  UNKNOW = 0;
+  INT = 2;
+  STRING = 3;
+  FLOAT = 4;
+  BYTES = 5;
+  BOOL = 6;
+}
+
+message AnyValue {
+  required ValueType type = 1;
+  oneof val {
+    int64 ival = 2;
+    string text = 3;
+    float fval = 4;
+    bytes bytes = 5;
+    bool bval = 6;
+  }
+}
